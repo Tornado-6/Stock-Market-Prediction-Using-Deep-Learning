@@ -100,7 +100,7 @@ for i in range(n):
         err += y[i] - y1[i]
     print("Error : ", err)
     with open ('Error_Rates_ARIMA.txt','a') as f:
-        st = "Error Rate for "+datasets[i]+" : "+str(err)
+        st = "Error Rate for "+datasets[i]+" : "+str(err)+"\n"
         f.write(st)
         f.close()
 
