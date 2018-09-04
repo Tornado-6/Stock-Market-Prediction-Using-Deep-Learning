@@ -18,7 +18,7 @@ def inverse_difference(history, yhat, interval=1):
     return yhat + history[-interval]
 
 
-pwd='/Users/T/Desktop/ML/StockIndicators/ARIMA/'
+pwd='/Users/T/Desktop/ML/Stock-Market-Prediction-Using-Deep-Learning/ARIMA'
 os.chdir(pwd)
 
 #Iterate through the dataset:
@@ -45,7 +45,7 @@ for i in range(n):
 
     plt.show()
 
-    path_d = '/Users/T/Desktop/ML/StockIndicators/ARIMA/dataset.csv'
+    path_d = '/Users/T/Desktop/ML/Stock-Market-Prediction-Using-Deep-Learning/ARIMA/dataset.csv'
     series = Series.from_csv(path_d)
     X = series.values
     days_in_year = 2
