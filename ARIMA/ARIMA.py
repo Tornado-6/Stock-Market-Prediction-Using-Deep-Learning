@@ -35,7 +35,9 @@ for i in range(n):
     # load dataset
     series = Series.from_csv(path, header=0)
     # display first few rows
-    split_p = len(series) - 7
+    ch = 7
+    split_p = len(series) - ch - 1
+    print(len(series))
     dataset, validation = series[0:split_p], series[split_p:]
     print('Dataset %d, Validation %d' % (len(dataset), len(validation)))
     dataset.to_csv('dataset.csv')
@@ -50,8 +52,9 @@ for i in range(n):
     X = series.values
     days_in_year = 2
     differenced = difference(X, days_in_year)
+
     # fitting
-    model = ARIMA(differenced, order=(2,0,0))
+    model = ARIMA(differenced, order=(1,2,0))
     model_fit = model.fit(disp=0)
     # print summ
     # print(model_fit.summary())
@@ -66,8 +69,8 @@ for i in range(n):
     # forecast = model_fit.predict(start=start_index, end=end_index)
 
     # Forecast method for future prediction
-    forecast = model_fit.forecast(steps=7)[0]
-
+    forecast = model_fit.forecast(steps=ch)[0]
+    print(len(forecast))
     # Predict method for future prediction
     # forecast = model_fit.predict(start=len(differenced),end=len(differenced)+6)
 
@@ -79,16 +82,17 @@ for i in range(n):
         history.append(inverted)
         day += 1
 
-    # series = pd.read_csv('/Users/T/Desktop/ML/StockIndicators/ARIMA/1/daily-minimum-temperatures-in-me.csv')
+    # series = pd.read_csv('/Users/T/Desktop/ML/StockIndicators/ARIMA/daily-minimum-temperatures-in-me.csv')
     # X = series.values
     # plt.plot(X[-7:,1],color='blue')
     # plt.plot(history[-7:],color='red')
     # plt.show()
-
+    path = '/Users/T/Desktop/ML/Stock-Market-Prediction-Using-Deep-Learning/ARIMA/validation.csv'
     series = pd.read_csv(path, header=0)
     X = series.values
-    y1 = history[-7:]
-    y = X[-7:, 1]
+    y1 = history[-ch:]
+    y = X[-ch:, 1]
+    print(len(y1))
     err = 0
     plt.plot(y, color='blue',label='Actual')
     plt.plot(y1, color='red',label='Predicted')
@@ -96,8 +100,8 @@ for i in range(n):
     plt.title(datasets[i])
     plt.savefig(pwd + '/Plots/' + datasets[i] + '.png')
     plt.show()
-    for i in range(len(y1)):
-        err += y[i] - y1[i]
+    for i1 in range(len(y1)):
+        err += y[i1] - y1[i1]
     print("Error : ", err)
     with open ('Error_Rates_ARIMA.txt','a') as f:
         st = "Error Rate for "+datasets[i]+" : "+str(err)+"\n"
